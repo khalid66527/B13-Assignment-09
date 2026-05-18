@@ -1,9 +1,5 @@
-"use client";
 
 import ExploreCars from "@/components/ExploreCars";
-import { FaSearch } from "react-icons/fa";
-import { FaLocationDot } from "react-icons/fa6";
-import { MdReduceCapacity } from "react-icons/md";
 
 const ExploreCarsPage = async () => {
 
