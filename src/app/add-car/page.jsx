@@ -1,21 +1,35 @@
 "use client";
 
+import { toast } from "react-toastify";
+
 const AddCarFormPage = () => {
-    const handleSubmitform = async(e) => {
+    const handleSubmitform = async (e) => {
         e.preventDefault()
         const formData = new FormData(e.currentTarget)
-        const newCarObject  = Object.fromEntries(formData.entries())
-        console.log(newCarObject )
+        const newCarObject = Object.fromEntries(formData.entries())
+        console.log(newCarObject)
+        for (const key in newCarObject) {
+        if (!newCarObject[key]) {
+            toast.error(`${key} is required ❗`);
+            return;
+        }
+    }
 
-        const res = await fetch('http://localhost:5000/addCar',{
+        const res = await fetch('http://localhost:5000/addCar', {
             method: "POST",
             headers: {
-                "content-type":"application/json"
+                "content-type": "application/json"
             },
             body: JSON.stringify(newCarObject)
         })
-        const data = await res.json()
-        console.log(data)
+        const data = await res.json();
+
+
+        if (data.insertedId || data.acknowledged) {
+            toast.success("Car added successfully");
+        } else {
+            toast.error("Something went wrong");
+        }
 
     }
     return (
