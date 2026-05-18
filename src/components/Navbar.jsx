@@ -58,14 +58,14 @@ const Navbar = () => {
                         </ul>
                     </div>
                       {/* Sign In */}
-                    <Link href="/login">
+                    <Link href="/auth/signin">
                         <button className="px-4 py-2 rounded-lg border border-green-500 text-green-500 font-medium hover:bg-green-500 hover:text-white transition duration-200">
                             Sign In
                         </button>
                     </Link>
 
                     {/* Sign Up */}
-                    <Link href="/register">
+                    <Link href="/auth/signup">
                         <button className="px-4 py-2 rounded-lg bg-green-500 text-white font-semibold shadow-md hover:bg-green-600 transition duration-200">
                             Sign Up
                         </button>

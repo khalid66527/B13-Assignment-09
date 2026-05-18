@@ -1,7 +1,8 @@
-import { FaLocationDot } from "react-icons/fa6"
-import { LuTypeOutline } from "react-icons/lu"
-import { MdReduceCapacity } from "react-icons/md"
 
+import ContactModal, {  EditModal } from "@/components/EditModal";
+import { FaLocationDot } from "react-icons/fa6";
+import { LuTypeOutline } from "react-icons/lu";
+import { MdReduceCapacity } from "react-icons/md";
 const CarDetailsPage = async ({ params }) => {
     const { id } = await params
     console.log(id)
@@ -10,6 +11,9 @@ const CarDetailsPage = async ({ params }) => {
     const { imageUrl, carName, availability, carType, location, seatCapacity, price, _id, description } = carDetails
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-50 via-gray-100 to-zinc-200 py-16 px-4 sm:px-6 lg:px-8">
+            <div className="flex justify-end">
+                <ContactModal></ContactModal>
+            </div>
             <div className="max-w-7xl mx-auto">
 
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 bg-white/70 backdrop-blur-md rounded-[32px] shadow-2xl overflow-hidden border border-white/50 p-6 sm:p-10 lg:p-12">
@@ -37,7 +41,7 @@ const CarDetailsPage = async ({ params }) => {
                     {/* Right Column */}
                     <div className="lg:col-span-5 flex flex-col justify-between lg:pl-6">
 
-                       
+
                         <div>
                             <div className="inline-flex items-center gap-2 bg-emerald-50 text-emerald-600 px-4 py-1.5 rounded-full text-xs font-semibold tracking-wide uppercase shadow-sm">
                                 <FaLocationDot /> {location}
@@ -48,7 +52,7 @@ const CarDetailsPage = async ({ params }) => {
                                 {carName}
                             </h1>
 
-                          
+
                             <div className="w-20 h-1 bg-emerald-500 rounded-full mt-5 mb-6"></div>
 
                             {/* Description */}
@@ -61,7 +65,7 @@ const CarDetailsPage = async ({ params }) => {
                                 </p>
                             </div>
 
-                       
+
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="bg-white border border-gray-100 p-4 rounded-xl flex items-center gap-3 hover:shadow-md transition">
                                     <span className="text-xl bg-emerald-100 text-emerald-600 p-2 rounded-lg">
@@ -103,8 +107,8 @@ const CarDetailsPage = async ({ params }) => {
                                 </div>
 
                                 <span className={`px-3 py-1 text-xs rounded-full font-semibold ${availability === "available"
-                                        ? "bg-green-100 text-green-600"
-                                        : "bg-red-100 text-red-500"
+                                    ? "bg-green-100 text-green-600"
+                                    : "bg-red-100 text-red-500"
                                     }`}>
                                     {availability}
                                 </span>
@@ -114,11 +118,11 @@ const CarDetailsPage = async ({ params }) => {
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
                                 <button className="w-full border border-gray-800 text-gray-800 hover:bg-gray-900 hover:text-white py-3 rounded-xl font-semibold transition duration-300">
-                                     Add to Cart
+                                    Add to Cart
                                 </button>
 
                                 <button className="w-full bg-emerald-500 hover:bg-emerald-600 text-white py-3 rounded-xl font-semibold shadow-md transition duration-300">
-                                 Book Now
+                                    Book Now
                                 </button>
 
                             </div>
