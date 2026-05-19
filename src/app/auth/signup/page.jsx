@@ -1,54 +1,87 @@
 "use client";
 
+import { authClient } from "@/lib/auth-client";
 import {
     Button,
-    Description,
     FieldError,
     FieldGroup,
     Fieldset,
     Form,
     Input,
     Label,
-    TextArea,
     TextField,
 } from "@heroui/react";
+
+
+import { useRouter } from "next/navigation";   // ← Fixed
 import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
-
+import { toast } from "react-toastify";
+import { useState } from "react";
 
 const SignUpPage = () => {
+
+
+    const router = useRouter();
+    const [isLoading, setIsLoading] = useState(false);
+
+
+    const onSubmit = async (e) => {
+        e.preventDefault();
+        setIsLoading(true);
+
+        const formData = new FormData(e.currentTarget);
+        const user = Object.fromEntries(formData.entries());
+
+
+        try {
+            await authClient.signUp.email(
+                {
+                    email: user.email,
+                    password: user.password,
+                    name: user.name,
+                    image: user.image ,
+                },
+                {
+                    onSuccess: (ctx) => {
+                        toast.success("Signup successful !!  Please sign in.");
+                       
+                        setTimeout(() => {
+                            router.push("/auth/signin");
+                        }, 100);
+                    },
+
+                }
+            );
+        } catch (err) {
+            console.error(err);
+            toast.error("Something went wrong. Please try again.");
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     return (
         <div className="min-h-[80vh] flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-purple-50 px-4 py-12">
-
             <div className="w-full max-w-lg bg-white/90 backdrop-blur-xl border border-gray-200 shadow-[0_10px_40px_rgba(0,0,0,0.08)] rounded-3xl p-8 sm:p-10">
 
                 {/* Header */}
                 <div className="text-center mb-8">
-                    <h2 className="text-3xl font-extrabold bg-gradient-to-r from-green-900 to-green-300 bg-clip-text text-transparent">
-                        Create Account 
+                    <h2 className="text-4xl font-extrabold bg-gradient-to-r from-green-900 to-green-300 bg-clip-text text-transparent">
+                        Create Account
                     </h2>
                     <p className="text-sm text-gray-500 mt-2">
-                    Join us to explore premium cars
+                        Join us to explore premium cars
                     </p>
                 </div>
 
-                <Form className="w-full max-w-96">
+                <Form onSubmit={onSubmit} className="w-full">
                     <Fieldset>
-                        
 
                         <FieldGroup>
 
                             {/* Name */}
-                            <TextField
-                                isRequired
-                                name="name"
-                                validate={(value) => {
-                                    if (value.length < 3) {
-                                        return "Name must be at least 3 characters";
-                                    }
-                                    return null;
-                                }}
-                            >
+                            <TextField isRequired name="name">
                                 <Label className="text-gray-700">Name</Label>
                                 <Input
                                     placeholder="John Doe"
@@ -67,53 +100,38 @@ const SignUpPage = () => {
                                 <FieldError />
                             </TextField>
 
-                            {/* Image */}
-                            <TextField
-                                isRequired
-                                className="w-full"
-                                validate={(value) => {
-                                    if (!value || value.length < 10) {
-                                        return "Please enter a valid Image URL";
-                                    }
-                                    return null;
-                                }}
-                            >
-                                <Label className="mb-1 text-sm font-medium text-gray-700">
-                                    Profile Image URL
-                                </Label>
+                            {/* Profile Image URL */}
+                            <TextField isRequired name="image">
+                                <Label className="text-gray-700">Profile Image URL</Label>
                                 <Input
-                                    name="image"
                                     type="url"
-                                    placeholder="Enter Image Link"
+                                    placeholder="https://example.com/image.jpg"
                                     className="bg-gray-50 border-gray-200 text-gray-800 h-12 rounded-xl"
                                 />
-                                <FieldError className="text-xs text-red-500 mt-1" />
+                                <FieldError />
                             </TextField>
 
                             {/* Password */}
-                            <TextField className="w-full" name="password">
-                                <Label className="mb-1 text-sm font-medium text-gray-700">
-                                    Password
-                                </Label>
-                                <div className="relative w-full">
-                                    <Input
-                                        name="password"
-                                        type="password"
-                                        placeholder="Enter Your Password"
-                                        className="w-full bg-gray-50 border-gray-200 text-gray-800 h-12 rounded-xl"
-                                    />
-                                </div>
+                            <TextField isRequired name="password">
+                                <Label className="text-gray-700">Password</Label>
+                                <Input
+                                    type="password"
+                                    placeholder="Enter Your Password"
+                                    className="bg-gray-50 border-gray-200 text-gray-800 h-12 rounded-xl"
+                                />
+                                <FieldError />
                             </TextField>
 
                         </FieldGroup>
 
-                        {/* Button */}
-                        <div className="w-full mt-4">
+                        {/* Submit Button */}
+                        <div className="w-full mt-6">
                             <Button
                                 className="w-full h-12 bg-gradient-to-r from-green-900 to-green-400 text-white font-bold rounded-xl shadow-md hover:opacity-90 transition"
                                 type="submit"
+                                disabled={isLoading}
                             >
-                                Sign Up
+                                {isLoading ? "Creating Account..." : "Sign Up"}
                             </Button>
                         </div>
 
@@ -124,25 +142,23 @@ const SignUpPage = () => {
                             <div className="flex-grow border-t border-gray-200"></div>
                         </div>
 
-                        {/* Google */}
-                        <div className="w-full flex flex-col gap-5">
-                            <Button
-                                className="w-full h-12 flex items-center justify-center gap-3 rounded-xl border border-gray-200 bg-gray-50 text-sm font-bold text-gray-700 hover:bg-gray-100 transition"
-                            >
-                                <FcGoogle className="size-5" />
-                                Continue with Google
-                            </Button>
+                        {/* Google Sign Up */}
+                        <Button
+                            className="w-full h-12 flex items-center justify-center gap-3 rounded-xl border border-gray-200 bg-gray-50 text-sm font-bold text-gray-700 hover:bg-gray-100 transition"
+                        >
+                            <FcGoogle className="size-5" />
+                            Continue with Google
+                        </Button>
 
-                            {/* Login */}
-                            <div className="text-center text-sm text-gray-500">
-                                Already have an account?{" "}
-                                <Link
-                                    href="/auth/signin"
-                                    className="font-semibold text-blue-600 hover:underline"
-                                >
-                                    Signin
-                                </Link>
-                            </div>
+                        {/* Already have account */}
+                        <div className="text-center text-sm text-gray-800 mt-6">
+                            Already have an account?{" "}
+                            <Link
+                                href="/auth/signin"
+                                className="font-semibold text-green-600 hover:underline"
+                            >
+                                Sign in
+                            </Link>
                         </div>
 
                     </Fieldset>
@@ -150,7 +166,7 @@ const SignUpPage = () => {
 
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default SignUpPage;

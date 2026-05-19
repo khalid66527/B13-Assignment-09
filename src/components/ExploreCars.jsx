@@ -5,7 +5,7 @@ import { FaLocationDot } from "react-icons/fa6";
 import { MdReduceCapacity } from "react-icons/md";
 
 const ExploreCars = ({ car }) => {
-    console.log(car);
+    // console.log(car);
     const {imageUrl,carName, availability ,carType,location,seatCapacity,price,_id }= car
     
     return (
