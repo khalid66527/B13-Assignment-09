@@ -1,6 +1,16 @@
+"use client";
+import { authClient } from "@/lib/auth-client";
+import { Avatar } from "@heroui/react";
 import Link from "next/link"
+import { FaAlignJustify } from "react-icons/fa6";
 
 const Navbar = () => {
+
+    const {
+        data: session,
+    } = authClient.useSession()
+    const user = session?.user
+    console.log(user)
     return (
         <div className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
             <div className="navbar max-w-7xl mx-auto px-4">
@@ -38,42 +48,57 @@ const Navbar = () => {
 
                 {/* RIGHT */}
                 <div className="navbar-end gap-3">
+                    {user ?
+                        <>
+                            <li>
+                                <Avatar>
+                                    <Avatar.Image alt="John Doe" src={user?.imageUrl} />
+                                    <Avatar.Fallback>{user.name.charAt(0)}</Avatar.Fallback>
+                                </Avatar>
 
-                  
+                            </li>
+                            <div className="dropdown dropdown-end">
+                                <div tabIndex={0} className="cursor-pointer">
+                                    <div className="  flex items-center justify-center text-green-600 font-bold">
+                                        <FaAlignJustify />
+                                    </div>
+                                </div>
 
-                    {/* Profile */}
-                    <div className="dropdown dropdown-end">
-                        <div tabIndex={0} className="cursor-pointer">
-                            <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-600 font-bold">
-                                U
+                                <ul className="menu menu-sm dropdown-content mt-3 p-2 shadow-xl text-black bg-white rounded-xl w-56">
+                                    <li><Link href="/add-car">Add Car</Link></li>
+                                    <li><Link href="/my-bookings">My Bookings</Link></li>
+                                    <li><Link href="/my-added-cars">My Added Cars</Link></li>
+                                    <li><Link href="/settings">Settings</Link></li>
+                                    <li><Link className="text-red-500" href="/logout">Logout</Link></li>
+                                </ul>
                             </div>
-                        </div>
+                        </>
+                        :
+                        <>
+                            <div className="flex gap-3">
+                           
+                                <Link href="/auth/signin">
+                                    <button className="px-6 py-3 rounded-xl border-2 border-green-600 text-green-700 font-semibold 
+                           hover:bg-green-600 hover:text-white transition-all duration-300 
+                           active:scale-95 shadow-sm hover:shadow-md">
+                                        Sign In
+                                    </button>
+                                </Link>
 
-                        <ul className="menu menu-sm dropdown-content mt-3 p-2 shadow-xl text-black bg-white rounded-xl w-56">
-                            <li><Link href="/add-car">Add Car</Link></li>
-                            <li><Link href="/my-bookings">My Bookings</Link></li>
-                            <li><Link href="/my-added-cars">My Added Cars</Link></li>
-                            <li><Link href="/settings">Settings</Link></li>
-                            <li><Link className="text-red-500" href="/logout">Logout</Link></li>
-                        </ul>
-                    </div>
-                      {/* Sign In */}
-                    <Link href="/auth/signin">
-                        <button className="px-4 py-2 rounded-lg border border-green-500 text-green-500 font-medium hover:bg-green-500 hover:text-white transition duration-200">
-                            Sign In
-                        </button>
-                    </Link>
-
-                    {/* Sign Up */}
-                    <Link href="/auth/signup">
-                        <button className="px-4 py-2 rounded-lg bg-green-500 text-white font-semibold shadow-md hover:bg-green-600 transition duration-200">
-                            Sign Up
-                        </button>
-                    </Link>
-
+                                <Link href="/auth/signup">
+                                    <button className="px-6 py-3 rounded-xl bg-gradient-to-r from-green-600 to-green-500 
+                           text-white font-semibold shadow-md hover:shadow-lg 
+                           hover:from-green-700 hover:to-green-600 transition-all duration-300 
+                           active:scale-95">
+                                        Sign Up
+                                    </button>
+                                </Link>
+                            </div>
+                        </>}
                 </div>
+
             </div>
-        </div>
+        </div >
     )
 }
 
