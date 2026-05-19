@@ -19,8 +19,8 @@ import { FcGoogle } from "react-icons/fc";
 import { toast } from "react-toastify";
 import { useState } from "react";
 
-const SignUpPage = () => {
 
+const SignUpPage = () => {
 
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
@@ -34,33 +34,36 @@ const SignUpPage = () => {
         const user = Object.fromEntries(formData.entries());
 
 
+
+
         try {
-            await authClient.signUp.email(
+            setIsLoading(true);
+
+            const signUpResponse = await authClient.signUp.email(
                 {
                     email: user.email,
                     password: user.password,
                     name: user.name,
-                    image: user.image ,
+                    image: user.image || undefined,
                 },
                 {
-                    onSuccess: (ctx) => {
-                        toast.success("Signup successful !!  Please sign in.");
-                       
-                        setTimeout(() => {
-                            router.push("/auth/signin");
-                        }, 100);
+                    onSuccess: () => {
+                        toast.success("Signup successful! Please sign in ");
+                        router.push("/auth/signin");
                     },
-
                 }
             );
-        } catch (err) {
-            console.error(err);
-            toast.error("Something went wrong. Please try again.");
-        } finally {
+
+            console.log("Signup response:", signUpResponse);
+
+        } 
+      
+        finally {
             setIsLoading(false);
         }
     };
 
+    
     return (
         <div className="min-h-[80vh] flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-purple-50 px-4 py-12">
             <div className="w-full max-w-lg bg-white/90 backdrop-blur-xl border border-gray-200 shadow-[0_10px_40px_rgba(0,0,0,0.08)] rounded-3xl p-8 sm:p-10">
