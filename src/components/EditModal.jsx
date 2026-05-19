@@ -1,143 +1,160 @@
-import { Button, Modal, Surface } from "@heroui/react";
-import React from "react";
-import { BiEdit } from "react-icons/bi";
+"use client";
 
-export default function ContactModal() {
-  
-  const handleSubmitForm = (e) => {
+import { Button, Input, Label, Modal, Surface, TextField } from "@heroui/react";
+import { toast } from "react-toastify";
+
+export function EditCarModal({ carDetails }) {
+  const {
+    _id, carName, price, carType, seatCapacity,
+    imageUrl, location, availability, description
+  } = carDetails || {};
+
+  const handleSubmitform = async (e) => {
     e.preventDefault();
-    const formData = new FormData(e.target);
-    const carData = Object.fromEntries(formData.entries());
-    console.log("Car Data Updated:", carData);
-    
+    const formData = new FormData(e.currentTarget);
+    const updatedCar = Object.fromEntries(formData.entries());
+
+    console.log("Sending Data:", updatedCar);
+
+    try {
+      const res = await fetch(`http://localhost:5000/addCar/${_id}`, {
+        method: 'PATCH',
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(updatedCar)
+      });
+
+      const data = await res.json();
+      console.log("Update Success:", data);
+
+      toast.success("Car Updated Successfully!");
+    } catch (error) {
+      console.error("Update Failed:", error);
+    }
   };
 
   return (
     <Modal>
-      <div className="mb-2">
-        <Button variant="outline" className="flex items-center gap-2">
-          <BiEdit /> Edit Now
-        </Button>
-      </div>
-          
+      <Button variant="secondary" className="text-green-600">Edit Car</Button>
+
       <Modal.Backdrop>
         <Modal.Container placement="auto">
-          <Modal.Dialog className="md:max-w-lg">
+          <Modal.Dialog className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
             <Modal.CloseTrigger />
-            
-            <Modal.Header>
-              <Modal.Heading className="text-2xl font-bold">Edit Car Details</Modal.Heading>
-            </Modal.Header>
-            
 
-            <div className="p-6">
-              <form
-            //    onSubmit={handleSubmitForm}
-                className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                
-                <Surface variant="default" className="col-span-1 md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6 p-1">
-                  
+            <Modal.Header>
+              <Modal.Heading>Edit Car Information</Modal.Heading>
+            </Modal.Header>
+
+            <Modal.Body className="p-6">
+              <Surface variant="default">
+                <form
+                  id="editCarForm"
+                  onSubmit={handleSubmitform}
+                  className="flex flex-col gap-6 bg-white p-6 rounded-2xl shadow-lg border border-gray-100"
+                >
                   {/* Car Name */}
                   <div className="flex flex-col gap-2">
-                    <label className="text-sm font-medium text-gray-600">Car Name</label>
-                    <input
-                      type="text"
+                    <Label className="text-sm font-semibold text-gray-700">Car Name</Label>
+                    <Input
                       name="carName"
-                      placeholder="e.g. Toyota Corolla"
-                      className="input text-white input-bordered w-full rounded-xl focus:border-green-500 focus:ring-2 focus:ring-green-200"
+                      defaultValue={carName}
+                      placeholder="Toyota Corolla"
+                      className="rounded-xl border-gray-300 text-white focus:border-green-500 focus:ring-2 focus:ring-blue-100"
                     />
                   </div>
 
                   {/* Price */}
                   <div className="flex flex-col gap-2">
-                    <label className="text-sm font-medium text-gray-600">Daily Rent Price</label>
-                    <input
-                      type="number"
+                    <Label className="text-sm font-semibold text-gray-700">Daily Rent Price (৳)</Label>
+                    <Input
                       name="price"
-                      placeholder="e.g. 2000"
-                      className="text-white input input-bordered w-full rounded-xl focus:border-green-500 focus:ring-2 focus:ring-green-200"
+                      type="number"
+                      defaultValue={price}
+                      className="rounded-xl text-white border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-blue-100"
                     />
                   </div>
 
                   {/* Car Type */}
                   <div className="flex flex-col gap-2">
-                    <label className="text-sm font-medium text-gray-600">Car Type</label>
-                    <select name="carType" className="select select-bordered w-full rounded-xl focus:border-green-500 focus:ring-2 focus:ring-green-200">
+                    <Label className="text-sm font-semibold text-gray-700">Car Type</Label>
+                    <select
+                      name="carType"
+                      defaultValue={carType || ""}
+                      className="w-full border border-gray-300 rounded-xl text-white px-4 py-2.5 bg-gray-900 focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-blue-100 transition"
+                    >
                       <option value="">Select Type</option>
-                      <option>SUV</option>
-                      <option>Sedan</option>
-                      <option>Hatchback</option>
-                      <option>Luxury</option>
+                      <option value="SUV">SUV</option>
+                      <option value="Sedan">Sedan</option>
+                      <option value="Hatchback">Hatchback</option>
+                      <option value="Luxury">Luxury</option>
                     </select>
                   </div>
 
                   {/* Seat Capacity */}
                   <div className="flex flex-col gap-2">
-                    <label className="text-sm font-medium text-gray-600">Seat Capacity</label>
-                    <input
+                    <Label className="text-sm font-semibold text-gray-700">Seat Capacity</Label>
+                    <Input
                       name="seatCapacity"
                       type="number"
-                      placeholder="e.g. 5"
-                      className="input text-white input-bordered w-full rounded-xl focus:border-green-500 focus:ring-2 focus:ring-green-200"
+                      defaultValue={seatCapacity}
+                      className="rounded-xl border-green-500 text-white focus:border-green-500 focus:ring-2 focus:ring-blue-100"
                     />
                   </div>
 
                   {/* Image URL */}
-                  <div className="md:col-span-2 flex flex-col gap-2">
-                    <label className="text-sm font-medium text-gray-600">Image URL</label>
-                    <input
+                  <div className="flex flex-col gap-2">
+                    <Label className="text-sm font-semibold text-gray-700">Image URL</Label>
+                    <Input
                       name="imageUrl"
-                      type="text"
-                      placeholder="https://imgbb.com/your-image"
-                      className="input text-white input-bordered w-full rounded-xl focus:border-green-500 focus:ring-2 focus:ring-green-200"
+                      defaultValue={imageUrl}
+                      className="rounded-xl border-gray-300 text-white bg-gray-900 focus:border-green-500 focus:ring-2 focus:ring-blue-100"
                     />
                   </div>
 
                   {/* Location */}
                   <div className="flex flex-col gap-2">
-                    <label className="text-sm font-medium text-gray-600">Pickup Location</label>
-                    <input
+                    <Label className="text-sm font-semibold text-gray-700">Pickup Location</Label>
+                    <Input
                       name="location"
-                      type="text"
-                      placeholder="Dhaka, Bangladesh"
-                      className="input text-white input-bordered w-full rounded-xl focus:border-green-500 focus:ring-2 focus:ring-green-200"
+                      defaultValue={location}
+                      className="rounded-xl text-white border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-100"
                     />
                   </div>
 
                   {/* Availability */}
                   <div className="flex flex-col gap-2">
-                    <label className="text-sm font-medium text-gray-600">Availability</label>
-                    <select name="availability" className="select select-bordered text-white w-full rounded-xl focus:border-green-500 focus:ring-2 focus:ring-green-200">
-                      <option>Available</option>
-                      <option>Unavailable</option>
+                    <Label className="text-sm font-semibold ">Availability</Label>
+                    <select
+                      name="availability"
+                      defaultValue={availability || "Available"}
+                      className="w-full border border-gray-300 rounded-xl px-4 py-2.5 text-white bg-gray-900 focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-blue-100 transition"
+                    >
+                      <option value="Available">Available</option>
+                      <option value="Unavailable">Unavailable</option>
                     </select>
                   </div>
 
                   {/* Description */}
-                  <div className="md:col-span-2 flex flex-col gap-2">
-                    <label className="text-sm font-medium text-gray-600">Description</label>
+                  <div className="flex flex-col gap-2">
+                    <Label className="text-sm font-semibold text-gray-700">Description</Label>
                     <textarea
                       name="description"
-                      rows="4"
-                      placeholder="Write car details..."
-                      className="textarea text-white textarea-bordered w-full rounded-xl focus:border-green-500 focus:ring-2 focus:ring-green-200"
-                    ></textarea>
+                      defaultValue={description}
+                      rows={4}
+                      className="w-full border bg-gray-900 text-white border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-blue-100 transition"
+                    />
                   </div>
-                  
-                </Surface>
 
-                <div className="md:col-span-2 mt-2">
-                  <button
-                    type="submit"
-                    className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 rounded-xl shadow-lg transition duration-300"
-                  >
-                    Save Details
-                  </button>
-                </div>
+                
+                </form>
+              </Surface>
+            </Modal.Body>
 
-              </form>
-            </div> 
-
+            <Modal.Footer>
+              <Button type="submit" form="editCarForm" className="mt-2 w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-xl shadow-md transition duration-300" slot="close">
+                Save Changes
+              </Button>
+            </Modal.Footer>
           </Modal.Dialog>
         </Modal.Container>
       </Modal.Backdrop>

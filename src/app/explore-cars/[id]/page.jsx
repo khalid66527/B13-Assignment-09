@@ -1,5 +1,5 @@
 
-import ContactModal, {  EditModal } from "@/components/EditModal";
+import { EditCarModal } from "@/components/EditModal";
 import { FaLocationDot } from "react-icons/fa6";
 import { LuTypeOutline } from "react-icons/lu";
 import { MdReduceCapacity } from "react-icons/md";
@@ -12,7 +12,7 @@ const CarDetailsPage = async ({ params }) => {
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-50 via-gray-100 to-zinc-200 py-16 px-4 sm:px-6 lg:px-8">
             <div className="flex justify-end">
-                <ContactModal></ContactModal>
+                <EditCarModal carDetails={carDetails}></EditCarModal>
             </div>
             <div className="max-w-7xl mx-auto">
 

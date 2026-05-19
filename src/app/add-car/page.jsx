@@ -46,6 +46,7 @@ const AddCarFormPage = () => {
                         Fill up the form to list your car for rental
                     </p>
                 </div>
+                
 
                 {/* Form */}
                 <form onSubmit={handleSubmitform} className="grid grid-cols-1 md:grid-cols-2 gap-6">
