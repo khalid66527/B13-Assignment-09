@@ -1,6 +1,7 @@
 "use client";
 
 import { Button, Input, Label, Modal, Surface, TextField } from "@heroui/react";
+import { FaEdit } from "react-icons/fa";
 import { toast } from "react-toastify";
 
 export function EditCarModal({ carDetails }) {
@@ -34,7 +35,7 @@ export function EditCarModal({ carDetails }) {
 
   return (
     <Modal>
-      <Button variant="secondary" className="text-green-600">Edit Car</Button>
+      <Button variant="secondary" className="text-green-600"><FaEdit /> Edit Car</Button>
 
       <Modal.Backdrop>
         <Modal.Container placement="auto">
