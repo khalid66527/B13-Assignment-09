@@ -1,4 +1,5 @@
 
+import BookingCar from "@/components/BookingCar";
 import { DeleteAdded } from "@/components/DeleteAdded";
 import { EditCarModal } from "@/components/EditModal";
 import { FaLocationDot } from "react-icons/fa6";
@@ -123,9 +124,7 @@ const CarDetailsPage = async ({ params }) => {
                                     Add to Cart
                                 </button>
 
-                                <button className="w-full bg-emerald-500 hover:bg-emerald-600 text-white py-3 rounded-xl font-semibold shadow-md transition duration-300">
-                                    Book Now
-                                </button>
+                                <BookingCar carDetails={carDetails}></BookingCar>
 
                             </div>
 
