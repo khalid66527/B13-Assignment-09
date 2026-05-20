@@ -6,11 +6,18 @@ import { FaLocationDot } from "react-icons/fa6";
 import { LuTypeOutline } from "react-icons/lu";
 import { MdReduceCapacity } from "react-icons/md";
 const CarDetailsPage = async ({ params }) => {
+
+
     const { id } = await params
     console.log(id)
     const res = await fetch(`http://localhost:5000/addCar/${id}`)
     const carDetails = await res.json()
+
+
+
     const { imageUrl, carName, availability, carType, location, seatCapacity, price, _id, description } = carDetails
+
+    
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-50 via-gray-100 to-zinc-200 py-16 px-4 sm:px-6 lg:px-8">
             <div className="flex justify-end">

@@ -14,29 +14,6 @@ const Navbar = () => {
         await authClient.signOut();
     };
 
-    const [isClient, setIsClient] = useState(false);
-
-    // useEffect(() => {
-    //     setIsClient(true);
-    // }, []);
-
-    // if (!isClient || isPending) {
-    //     return (
-    //         <div className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
-    //             <div className="navbar max-w-7xl mx-auto px-4">
-    //                 <div className="navbar-start">
-    //                     <Link href="/" className="text-2xl font-extrabold tracking-tight">
-    //                         <span className="text-green-500">Car</span>
-    //                         <span className="text-gray-800">Park</span>
-    //                     </Link>
-    //                 </div>
-    //                 <div className="navbar-end">
-    //                     <div className="h-10 w-24 bg-gray-200 animate-pulse rounded-xl" />
-    //                 </div>
-    //             </div>
-    //         </div>
-    //     );
-    // }
 
     return (
         <div className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">

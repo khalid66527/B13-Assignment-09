@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { CiSquarePlus } from "react-icons/ci";
 
 const images = [
   "/assets/banner(1).jpg",
@@ -67,8 +68,8 @@ const Banner = () => {
               </Link>
 
               <Link href="/add-car">
-                <button className="border border-white/40 text-white px-6 py-3 rounded-xl font-semibold hover:bg-white hover:text-black transition">
-                  ➕ Add Your Car
+                <button className="border flex items-center gap-2  border-white/40 text-white px-6 py-3 rounded-xl font-semibold hover:bg-white hover:text-black transition">
+                  <span className="text-2xl"><CiSquarePlus /></span> Add Your Car
                 </button>
               </Link>
 

@@ -1,9 +1,11 @@
+import { DeleteBooking } from "@/components/DeleteBooking"
 import { auth } from "@/lib/auth"
 import { Button } from "@heroui/react"
 import { headers } from "next/headers"
 import Image from "next/image"
-import { FaLocationDot } from "react-icons/fa6"
-import { MdDelete } from "react-icons/md"
+import Link from "next/link"
+import { FaArrowRightFromBracket, FaLocationDot } from "react-icons/fa6"
+
 
 
 const MyBooking = async () => {
@@ -17,12 +19,33 @@ const MyBooking = async () => {
     console.log("data", bookings)
     return (
         <div className="w-11/12 mx-auto">
-            <h1 className="text-3xl font-bold mb-8 text-gray-800">My Booking Cars</h1>
-
+            <h1 className="text-5xl font-bold mb-8 text-white text-center my-4">My Booking Cars</h1>
+            <p className="text-center text-gray-300 text-sm md:text-base mb-8">
+                View all your booked cars, manage bookings, and track your rental history in one place.
+            </p>
             <div>
                 {
                     bookings.length === 0 ? (
-                        <p>No bookings found</p>
+                        <div className="w-full flex items-center justify-center py-16">
+                            <div className="bg-white/80 backdrop-blur-md border border-gray-200 rounded-2xl px-10 py-8 shadow-md text-center hover:shadow-xl transition-all duration-300">
+
+                                <p className="text-2xl font-semibold text-gray-800">
+                                    No bookings found
+                                </p>
+
+                                <p className="text-sm text-gray-500 mt-2">
+                                    You haven’t booked any cars yet.
+                                </p>
+
+                                <Link
+                                    href="/explore-cars"
+                                    className="mt-4 inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white text-sm font-semibold px-5 py-2.5 rounded-xl shadow-md hover:shadow-green-200 transition-all duration-200"
+                                >
+                                    Booking Now <FaArrowRightFromBracket />
+                                </Link>
+
+                            </div>
+                        </div>
                     ) : (
                         bookings.map(booking => (
                             <div
@@ -76,17 +99,9 @@ const MyBooking = async () => {
 
                                     {/* RIGHT SIDE BUTTONS */}
                                     <div className="flex flex-col gap-4">
+                                        <DeleteBooking bookingId={booking._id}></DeleteBooking>
 
-                                        <Button
-                                            variant="outline"
-                                            className="text-red-700 border-red-700 
-                                               px-5 py-2.5 rounded-xl
-                                               transition-all duration-300
-                                               hover:bg-red-50 
-                                               hover:-translate-y-1 hover:shadow-md"
-                                        >
-                                            <MdDelete className="mr-1" /> Cancel Booking
-                                        </Button>
+
 
                                         {/* <Button
                                             variant="outline"
@@ -111,48 +126,3 @@ const MyBooking = async () => {
 
 export default MyBooking
 
-// bookingDate
-// :
-// "2026-05-20T06:57:35.532Z"
-// carId
-// :
-// "6a0d46d0372f18e09f927f73"
-// carName
-// :
-// "Toyota Corolla"
-// carType
-// :
-// "Luxury"
-// driverNeeded
-// :
-// "Yes"
-// imageUrl
-// :
-// "https://cdn.pixabay.com/photo/2020/03/25/12/41/beach-4967176_640.jpg"
-// location
-// :
-// "MYMENSINGH"
-// price
-// :
-// "1200"
-// seatCapacity
-// :
-// "5"
-// specialNote
-// :
-// "ami book korte parchi "
-// userEmail
-// :
-// "khalidhasan678954321@gmail.com"
-// userId
-// :
-// "6a0cc32b02d2f64053a2e31b"
-// userImage
-// :
-// "https://lh3.googleusercontent.com/a/ACg8ocLC6kO0Hs08Df72p3ernu6YN0XnCN9FQdgzemAslTB0GOQ9gQ8=s96-c"
-// userName
-// :
-// "Khalid Hasan"
-// _id
-// :
-// "6a0d5b5f6e93587ea9638f77"
