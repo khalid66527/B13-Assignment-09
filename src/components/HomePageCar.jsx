@@ -2,7 +2,7 @@ import ExploreCars from "@/components/ExploreCars";
 import Link from "next/link";
 
 const HomePageCars = async () => {
-    const res = await fetch('http://localhost:5000/addCar', {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/addCar`, {
         cache: "no-store"   
     });
     const allCars = await res.json();

@@ -15,7 +15,7 @@ export function DeleteAdded({ carDetails }) {
         setIsDeleting(true);
 
         try {
-            const res = await fetch(`http://localhost:5000/addCar/${_id}`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/addCar/${_id}`, {
                 method: 'DELETE',
                 headers: { "content-type": "application/json" },
             });

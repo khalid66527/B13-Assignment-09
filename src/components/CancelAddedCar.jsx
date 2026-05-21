@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 export function CancelAddedCar({ addedId }) {
     // console.log("bookingiddddddddd", addedId)
     const handleCalcel = async () => {
-        const res = await fetch(`http://localhost:5000/added/${addedId}`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/added/${addedId}`, {
             method: "DELETE",
             headers: {
                 'content-type': 'application/json'
