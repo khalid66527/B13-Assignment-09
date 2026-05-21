@@ -3,15 +3,28 @@ import AddedCar from "@/components/AddedCar";
 import BookingCar from "@/components/BookingCar";
 import { DeleteAdded } from "@/components/DeleteAdded";
 import { EditCarModal } from "@/components/EditModal";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 import { FaLocationDot } from "react-icons/fa6";
 import { LuTypeOutline } from "react-icons/lu";
 import { MdReduceCapacity } from "react-icons/md";
 const CarDetailsPage = async ({ params }) => {
 
-
     const { id } = await params
 
-    const res = await fetch(`http://localhost:5000/addCar/${id}`)
+    const {token} = await auth.api.getToken({
+        headers: await headers()
+    })
+    console.log(token)
+    // const token =await auth.api.getToken({
+    //     headers: await headers()
+    // })
+
+    const res = await fetch(`http://localhost:5000/addCar/${id}`,{
+        headers:{
+            authorization: `Bearer ${token}`
+        }
+    })
     const carDetails = await res.json()
 
 
