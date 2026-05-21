@@ -1,5 +1,6 @@
 "use client";
 
+import { authClient } from "@/lib/auth-client";
 import { toast } from "react-toastify";
 
 const AddCarFormPage = () => {
@@ -9,16 +10,19 @@ const AddCarFormPage = () => {
         const newCarObject = Object.fromEntries(formData.entries())
         console.log(newCarObject)
         for (const key in newCarObject) {
-        if (!newCarObject[key]) {
-            toast.error(`${key} is required ❗`);
-            return;
+            if (!newCarObject[key]) {
+                toast.error(`${key} is required ❗`);
+                return;
+            }
         }
-    }
+        const { data: tokenData } = await authClient.token()
+        console.log(tokenData)
 
         const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/addCar`, {
             method: "POST",
             headers: {
-                "content-type": "application/json"
+                "content-type": "application/json",
+                authorization: `Bearer ${tokenData?.token}`
             },
             body: JSON.stringify(newCarObject)
         })
@@ -46,7 +50,7 @@ const AddCarFormPage = () => {
                         Fill up the form to list your car for rental
                     </p>
                 </div>
-                
+
 
                 {/* Form */}
                 <form onSubmit={handleSubmitform} className="grid grid-cols-1 md:grid-cols-2 gap-6">
