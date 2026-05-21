@@ -74,26 +74,27 @@ const MyBooking = async () => {
 
                                         {/* DETAILS */}
                                         <div className="space-y-1">
-                                            <p className="text-xl font-bold text-gray-900">
+                                            <p className="text-2xl font-bold text-gray-900">
                                                 {booking.carName}
                                             </p>
 
-                                            <p className="text-gray-900 text-sm">
+                                            <p className="text-gray-900 text-lg">
                                                 <span className="flex items-center gap-2"><FaLocationDot /> {booking.location}</span>
                                             </p>
 
-                                            <p className="text-lg font-semibold text-green-600">
+                                            <p className="text-2xl font-semibold text-green-600">
                                                 <span className="text-3xl">৳</span> {booking.price}
                                             </p>
 
-                                            <p className="text-sm text-gray-800">
-                                                Booking Date: {new Date(booking.bookingDate).toLocaleDateString("en-US", {
+                                            <p className="text-lg text-gray-800">
+                                               <span className="font-bold">Booking Date :</span> {new Date(booking.bookingDate).toLocaleDateString("en-US", {
                                                     weekday: "short",
                                                     day: "numeric",
                                                     month: "long",
                                                     year: "numeric"
                                                 })}
                                             </p>
+                                            <p className=" text-gray-900 text-lg"> <span className="font-bold">Added by :</span>{booking.userName}</p>
                                         </div>
                                     </div>
 

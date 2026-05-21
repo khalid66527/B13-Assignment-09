@@ -8,12 +8,12 @@ const BookingCar = ({ carDetails }) => {
     const { data: session } = authClient.useSession();
     const user = session?.user;
 
-    const { imageUrl, carName, carType, location, seatCapacity, price, _id, description } = carDetails;
+    const { imageUrl, carName, carType, location, seatCapacity, price, _id } = carDetails;
 
     const [isBooking, setIsBooking] = useState(false);
 
     const handleBooking = async (e) => {
-        e.preventDefault();                    // Important
+        e.preventDefault();                  
         setIsBooking(true);
 
         const formData = new FormData(e.currentTarget);

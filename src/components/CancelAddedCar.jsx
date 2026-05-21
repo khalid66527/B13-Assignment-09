@@ -2,10 +2,10 @@
 import { MdDelete } from "react-icons/md"
 import { AlertDialog, Button } from "@heroui/react";
 
-export function DeleteBooking({bookingId}) {
-    console.log("bookingiddddddddd",bookingId)
+export function CancelAddedCar({addedId}) {
+    console.log("bookingiddddddddd",addedId)
     const handleCalcel = async()=>{
-        const res = await fetch(`http://localhost:5000/booking/${bookingId}`,{
+        const res = await fetch(`http://localhost:5000/added/${addedId}`,{
             method:"DELETE",
             headers: {
                 'content-type':'application/json'
@@ -24,7 +24,7 @@ export function DeleteBooking({bookingId}) {
                                                hover:bg-red-50 
                                                hover:-translate-y-1 hover:shadow-md"
             >
-                <MdDelete className="mr-1" /> Cancel Booking
+                <MdDelete className="mr-1" /> Cancel Added
             </Button>
             <AlertDialog.Backdrop>
                 <AlertDialog.Container>
@@ -32,7 +32,7 @@ export function DeleteBooking({bookingId}) {
                         <AlertDialog.CloseTrigger />
                         <AlertDialog.Header>
                             <AlertDialog.Icon status="danger" />
-                            <AlertDialog.Heading>Cancel Booking permanently?</AlertDialog.Heading>
+                            <AlertDialog.Heading>Cancel Added permanently?</AlertDialog.Heading>
                         </AlertDialog.Header>
                         <AlertDialog.Body>
                           
@@ -40,7 +40,7 @@ export function DeleteBooking({bookingId}) {
                         <AlertDialog.Footer>
                             
                             <Button onClick={handleCalcel} slot="close" variant="danger">
-                                Cancel Booking
+                                Cancel 
                             </Button>
                         </AlertDialog.Footer>
                     </AlertDialog.Dialog>

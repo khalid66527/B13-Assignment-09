@@ -8,11 +8,6 @@ const ExploreCarsPage = async () => {
     const res = await fetch('http://localhost:5000/addCar')
     const allCars = await res.json()
 
-
-   
-
-
-
     return (
         <div className="min-h-screen bg-gray-50 py-10 px-4 sm:px-6 lg:px-8">
 

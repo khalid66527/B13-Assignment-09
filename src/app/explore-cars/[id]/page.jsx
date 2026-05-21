@@ -1,4 +1,5 @@
 
+import AddedCar from "@/components/AddedCar";
 import BookingCar from "@/components/BookingCar";
 import { DeleteAdded } from "@/components/DeleteAdded";
 import { EditCarModal } from "@/components/EditModal";
@@ -9,7 +10,7 @@ const CarDetailsPage = async ({ params }) => {
 
 
     const { id } = await params
-    console.log(id)
+
     const res = await fetch(`http://localhost:5000/addCar/${id}`)
     const carDetails = await res.json()
 
@@ -17,7 +18,19 @@ const CarDetailsPage = async ({ params }) => {
 
     const { imageUrl, carName, availability, carType, location, seatCapacity, price, _id, description } = carDetails
 
-    
+    const handleAddedCar = async() => {
+    const data = {
+        carName,
+        carType,
+        imageUrl,
+        location,
+        price,
+        seatCapacity
+    }
+
+    console.log('data paichi', data)
+}
+
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-50 via-gray-100 to-zinc-200 py-16 px-4 sm:px-6 lg:px-8">
             <div className="flex justify-end">
@@ -127,9 +140,7 @@ const CarDetailsPage = async ({ params }) => {
                             {/* Buttons */}
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
-                                <button className="w-full border border-gray-800 text-gray-800 hover:bg-gray-900 hover:text-white py-3 rounded-xl font-semibold transition duration-300">
-                                    Add to Cart
-                                </button>
+                                <AddedCar carDetails={carDetails}></AddedCar>
 
                                 <BookingCar carDetails={carDetails}></BookingCar>
 
