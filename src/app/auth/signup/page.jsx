@@ -18,12 +18,30 @@ import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
 import { toast } from "react-toastify";
 import { useState } from "react";
-
+import { FaEye, FaEyeSlash } from "react-icons/fa6";
 
 const SignUpPage = () => {
 
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+    const [password, setPassword] = useState("");
+    
+
+
+     const validatePassword = (value) => {
+        if (!value) return "Password is required";
+
+        if (value.length < 6) return "Password must be at least 6 characters";
+
+        if (!/[A-Z]/.test(value)) return "Must contain at least one uppercase letter (A-Z)";
+
+        if (!/[a-z]/.test(value)) return "Must contain at least one lowercase letter (a-z)";
+
+        if (!/[0-9]/.test(value)) return "Must contain at least one number (0-9)";
+
+        return null;
+    };
 
 
     const onSubmit = async (e) => {
@@ -56,20 +74,20 @@ const SignUpPage = () => {
 
             console.log("Signup response:", signUpResponse);
 
-        } 
-      
+        }
+
         finally {
             setIsLoading(false);
         }
     };
 
     const handleGoogleSignIn = async () => {
-            await authClient.signIn.social({
-                provider: "google",
-            });
-        }
+        await authClient.signIn.social({
+            provider: "google",
+        });
+    }
 
-    
+
     return (
         <div className="min-h-[80vh] flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-purple-50 px-4 py-12">
             <div className="w-full max-w-lg bg-white/90 backdrop-blur-xl border border-gray-200 shadow-[0_10px_40px_rgba(0,0,0,0.08)] rounded-3xl p-8 sm:p-10">
@@ -121,13 +139,35 @@ const SignUpPage = () => {
                             </TextField>
 
                             {/* Password */}
-                            <TextField isRequired name="password">
+                            <TextField
+                                isRequired
+                                name="password"
+                                validate={validatePassword}
+                            >
                                 <Label className="text-gray-700">Password</Label>
-                                <Input
-                                    type="password"
-                                    placeholder="Enter Your Password"
-                                    className="bg-gray-50 border-gray-200 text-gray-800 h-12 rounded-xl"
-                                />
+
+                                <div className="relative">
+                                    <Input
+                                        type={showPassword ? "text" : "password"}
+                                        placeholder="Enter Your Password"
+                                        className="bg-gray-50 border-gray-200 text-gray-800 h-12 w-full rounded-xl pr-12"
+                                    />
+
+                                    {/* Icon Inside Input Field */}
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowPassword(!showPassword)}
+                                        className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none"
+                                    >
+
+                                        {showPassword ? (
+                                            <FaEyeSlash size={20} />
+                                        ) : (
+                                            <FaEye size={20} />
+                                        )}
+                                    </button>
+                                </div>
+
                                 <FieldError />
                             </TextField>
 
