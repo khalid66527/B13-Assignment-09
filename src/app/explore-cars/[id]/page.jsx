@@ -12,13 +12,13 @@ const CarDetailsPage = async ({ params }) => {
 
     const { id } = await params
 
-    const {token} = await auth.api.getToken({
+    const { token } = await auth.api.getToken({
         headers: await headers()
     })
     console.log(token)
- 
-    const res = await fetch(`http://localhost:5000/addCar/${id}`,{
-        headers:{
+
+    const res = await fetch(`http://localhost:5000/addCar/${id}`, {
+        headers: {
             authorization: `Bearer ${token}`
         }
     })
@@ -26,20 +26,20 @@ const CarDetailsPage = async ({ params }) => {
 
 
 
-    const { imageUrl, carName, availability, carType, location, seatCapacity, price, _id, description } = carDetails
+    const { imageUrl, carName, availability, carType, location, seatCapacity, price, _id, description, booking_count } = carDetails
 
-    const handleAddedCar = async() => {
-    const data = {
-        carName,
-        carType,
-        imageUrl,
-        location,
-        price,
-        seatCapacity
+    const handleAddedCar = async () => {
+        const data = {
+            carName,
+            carType,
+            imageUrl,
+            location,
+            price,
+            seatCapacity
+        }
+
+        console.log('data paichi', data)
     }
-
-    console.log('data paichi', data)
-}
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-50  via-gray-100 to-zinc-200 py-16 px-4 sm:px-6 lg:px-8">
@@ -120,6 +120,19 @@ const CarDetailsPage = async ({ params }) => {
                                         <p className="text-xs text-gray-400 uppercase">Type</p>
                                         <p className="text-sm font-semibold text-gray-800">
                                             {carType}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {/* Booked by how many User */}
+                                <div className="bg-white border border-gray-100 p-4 rounded-xl flex items-center gap-3 hover:shadow-md transition">
+                                    <span className="text-xl bg-emerald-100 text-emerald-600 p-2 rounded-lg">
+                                        <MdReduceCapacity />
+                                    </span>
+                                    <div>
+                                        <p className="text-xs text-gray-400 uppercase">Booked Count</p>
+                                        <p className="text-sm font-semibold text-gray-800">
+                                            {booking_count || 0} times
                                         </p>
                                     </div>
                                 </div>

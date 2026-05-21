@@ -7,15 +7,15 @@ import Link from "next/link";
 import { FaArrowRightFromBracket, FaLocationDot } from "react-icons/fa6";
 
 const AddedCarPage = async () => {
-    const user = session?.user
-    
-    
+
     const session = await auth.api.getSession({
         headers: await headers()
     })
-    const {token}= await auth.api.getToken({
+    const { token } = await auth.api.getToken({
         headers: await headers()
     })
+
+    const user = session?.user
 
     const res = await fetch(`http://localhost:5000/added/${user.id}`, {
         headers: {
@@ -93,7 +93,7 @@ const AddedCarPage = async () => {
                                                 <span className="text-3xl">৳</span> {added.price}
                                             </p>
 
-                                            <p className="text-lg text-gray-900">
+                                            <p className="text-lg text-gray-900" suppressHydrationWarning>
                                                 <span className="font-bold">Addeds Date:</span> {new Date(added.addedDate).toLocaleDateString("en-US", {
                                                     weekday: "short",
                                                     day: "numeric",
