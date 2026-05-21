@@ -16,10 +16,7 @@ const CarDetailsPage = async ({ params }) => {
         headers: await headers()
     })
     console.log(token)
-    // const token =await auth.api.getToken({
-    //     headers: await headers()
-    // })
-
+ 
     const res = await fetch(`http://localhost:5000/addCar/${id}`,{
         headers:{
             authorization: `Bearer ${token}`

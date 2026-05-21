@@ -1,22 +1,30 @@
 
 import { CancelAddedCar } from "@/components/CancelAddedCar";
 import { auth } from "@/lib/auth";
+import { authClient } from "@/lib/auth-client";
 import { headers } from "next/headers";
 import Link from "next/link";
 import { FaArrowRightFromBracket, FaLocationDot } from "react-icons/fa6";
 
-const AddedCarPage = async()=>{
+const AddedCarPage = async () => {
+    const user = session?.user
+    
+    
     const session = await auth.api.getSession({
-    headers: await headers() // you need to pass the headers object.
-})
-const user = session?.user
+        headers: await headers()
+    })
+    const {token}= await auth.api.getToken({
+        headers: await headers()
+    })
 
-
-
-const res = await fetch(`http://localhost:5000/added/${user.id}`)
-const addeds = await res.json()
-console.log(addeds)
-    return(
+    const res = await fetch(`http://localhost:5000/added/${user.id}`, {
+        headers: {
+            authorization: `Bearer ${token}`
+        }
+    })
+    const addeds = await res.json()
+    console.log(addeds)
+    return (
         <div className="w-11/12 mx-auto">
             <h1 className="text-5xl font-bold mb-8 text-white text-center my-4">My Addeds Cars</h1>
             <p className="text-center text-gray-300 text-sm md:text-base mb-8">
@@ -49,7 +57,7 @@ console.log(addeds)
                         addeds.map(added => (
                             <div
                                 key={added._id}
-                                className=" backdrop-blur-lg border
+                                className=" bg-green-500 border
            rounded-2xl p-6 mb-6 
            shadow-sm hover:shadow-xl 
            transition-all duration-300 
@@ -99,7 +107,7 @@ console.log(addeds)
 
                                     {/* RIGHT SIDE BUTTONS */}
                                     <div className="flex flex-col gap-4">
-                                        
+
                                         <CancelAddedCar addedId={added._id}></CancelAddedCar>
 
                                     </div>

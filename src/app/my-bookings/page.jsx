@@ -13,8 +13,15 @@ const MyBooking = async () => {
         headers: await headers()
 
     })
+    const {token} =await auth.api.getToken({
+        headers: await headers()
+    })
     const user = session?.user
-    const res = await fetch(`http://localhost:5000/booking/${user?.id}`)
+    const res = await fetch(`http://localhost:5000/booking/${user?.id}`,{
+        headers: {
+                    authorization: `Bearer ${token}`
+                }
+    })
     const bookings = await res.json()
     console.log("data", bookings)
     return (
@@ -50,7 +57,7 @@ const MyBooking = async () => {
                         bookings.map(booking => (
                             <div
                                 key={booking._id}
-                                className=" backdrop-blur-lg border
+                                className=" bg-green-500 border
            rounded-2xl p-6 mb-6 
            shadow-sm hover:shadow-xl 
            transition-all duration-300 

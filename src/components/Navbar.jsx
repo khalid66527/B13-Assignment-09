@@ -4,7 +4,7 @@ import { authClient } from "@/lib/auth-client";
 import { Avatar } from "@heroui/react";
 import Link from "next/link";
 import { FaAlignJustify } from "react-icons/fa6";
-// import { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 const Navbar = () => {
     const { data: session, isPending } = authClient.useSession();

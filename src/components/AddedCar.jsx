@@ -14,7 +14,7 @@ const AddedCar = ({ carDetails }) => {
     const [isAdded, setIsAdded] = useState(false);
 
     const handleBooking = async (e) => {
-        
+
         const AddedData = {
             // User Info
             userId: user?.id,
@@ -33,24 +33,27 @@ const AddedCar = ({ carDetails }) => {
 
             addedDate: new Date().toISOString(),
         };
+        const { data: tokenData } = await authClient.token()
+        console.log(tokenData)
 
-        const res = await fetch('http://localhost:5000/addedData',{
-          method:'POST',
-          headers:{
-           "content-type": "application/json"
-          },
-          body: JSON.stringify(AddedData)
+        const res = await fetch('http://localhost:5000/addedData', {
+            method: 'POST',
+            headers: {
+                "content-type": "application/json",
+                authorization: `Bearer ${tokenData?.token}`
+            },
+            body: JSON.stringify(AddedData)
         })
         const data = await res.json();
-           if (res.ok) {
-                    toast.success("Added is successfully!");
-                    setTimeout(() => window.location.reload(), 1200);
-                } else {
-                    toast.error(data.message || "Failed to Added");
-                }
+        if (res.ok) {
+            toast.success("Added is successfully!");
+            setTimeout(() => window.location.reload(), 1200);
+        } else {
+            toast.error(data.message || "Failed to Added");
+        }
         console.log(data)
-        
-        
+
+
         console.log("Final Added Data:", AddedData);
         setIsBooking(false);
     };
@@ -58,9 +61,9 @@ const AddedCar = ({ carDetails }) => {
     return (
         <AlertDialog>
             <AlertDialog.Trigger asChild>
-                <button  className="w-full border border-gray-800 text-gray-800 hover:bg-gray-900 hover:text-white py-3 rounded-xl font-semibold transition duration-300">
-                                    Add to Cart
-                                </button>
+                <button className="w-full border border-gray-800 text-gray-800 hover:bg-gray-900 hover:text-white py-3 rounded-xl font-semibold transition duration-300">
+                    Add to Cart
+                </button>
             </AlertDialog.Trigger>
 
             <AlertDialog.Backdrop>
@@ -75,17 +78,17 @@ const AddedCar = ({ carDetails }) => {
                         </AlertDialog.Header>
 
                         <AlertDialog.Body>
-                            
+
                         </AlertDialog.Body>
 
                         <AlertDialog.Footer>
-                        
 
-                            <Button 
-                            onClick={handleBooking}
-                                type="submit" 
-                                form="bookingForm" 
-                                slot="close" 
+
+                            <Button
+                                onClick={handleBooking}
+                                type="submit"
+                                form="bookingForm"
+                                slot="close"
                                 disabled={isAdded}
                                 className="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white py-3 rounded-xl font-semibold shadow-md transition duration-300"
                             >
