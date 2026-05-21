@@ -32,8 +32,8 @@ const CarDetailsPage = async ({ params }) => {
 }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-50 via-gray-100 to-zinc-200 py-16 px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-end">
+        <div className="min-h-screen bg-gradient-to-br from-slate-50  via-gray-100 to-zinc-200 py-16 px-4 sm:px-6 lg:px-8">
+            <div className="flex justify-end gap-2 my-3 w-11/12">
                 <EditCarModal carDetails={carDetails}></EditCarModal>
                 <DeleteAdded carDetails={carDetails}></DeleteAdded>
             </div>
