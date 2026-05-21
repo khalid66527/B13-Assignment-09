@@ -3,6 +3,7 @@
 import { authClient } from "@/lib/auth-client";
 import { AlertDialog, Button } from "@heroui/react";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 const AddedCar = ({ carDetails }) => {
     const { data: session } = authClient.useSession();
@@ -41,6 +42,12 @@ const AddedCar = ({ carDetails }) => {
           body: JSON.stringify(AddedData)
         })
         const data = await res.json();
+           if (res.ok) {
+                    toast.success("Added is successfully!");
+                    setTimeout(() => window.location.reload(), 1200);
+                } else {
+                    toast.error(data.message || "Failed to Added");
+                }
         console.log(data)
         
         

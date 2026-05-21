@@ -1,18 +1,25 @@
 "use client";
 import { MdDelete } from "react-icons/md"
 import { AlertDialog, Button } from "@heroui/react";
+import { toast } from "react-toastify";
 
-export function CancelAddedCar({addedId}) {
-    console.log("bookingiddddddddd",addedId)
-    const handleCalcel = async()=>{
-        const res = await fetch(`http://localhost:5000/added/${addedId}`,{
-            method:"DELETE",
+export function CancelAddedCar({ addedId }) {
+    // console.log("bookingiddddddddd", addedId)
+    const handleCalcel = async () => {
+        const res = await fetch(`http://localhost:5000/added/${addedId}`, {
+            method: "DELETE",
             headers: {
-                'content-type':'application/json'
+                'content-type': 'application/json'
             }
         })
         const data = await res.json()
-        window.location.reload()
+        if (res.ok) {
+            toast.success("Added cancelled successfully!");
+            setTimeout(() => window.location.reload(), 1200);
+        } else {
+            toast.error(data.message || "Failed to cancel Added");
+        }
+        
     }
     return (
         <AlertDialog>
@@ -35,12 +42,12 @@ export function CancelAddedCar({addedId}) {
                             <AlertDialog.Heading>Cancel Added permanently?</AlertDialog.Heading>
                         </AlertDialog.Header>
                         <AlertDialog.Body>
-                          
+
                         </AlertDialog.Body>
                         <AlertDialog.Footer>
-                            
+
                             <Button onClick={handleCalcel} slot="close" variant="danger">
-                                Cancel 
+                                Cancel
                             </Button>
                         </AlertDialog.Footer>
                     </AlertDialog.Dialog>

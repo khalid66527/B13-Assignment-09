@@ -3,6 +3,7 @@
 import { authClient } from "@/lib/auth-client";
 import { AlertDialog, Button } from "@heroui/react";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 const BookingCar = ({ carDetails }) => {
     const { data: session } = authClient.useSession();
@@ -50,10 +51,15 @@ const BookingCar = ({ carDetails }) => {
           body: JSON.stringify(bookingData)
         })
         const data = await res.json();
-        console.log(data)
-        
-        
-        console.log("Final Booking Data:", bookingData);
+
+
+        if (res.ok) {
+            toast.success("Booking is successfully!");
+            setTimeout(() => window.location.reload(), 1200);
+        } else {
+            toast.error(data.message || "Failed to Booking");
+        }
+
         setIsBooking(false);
     };
 

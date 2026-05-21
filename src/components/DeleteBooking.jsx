@@ -1,19 +1,31 @@
 "use client";
 import { MdDelete } from "react-icons/md"
 import { AlertDialog, Button } from "@heroui/react";
+import { toast } from "react-toastify";
 
-export function DeleteBooking({bookingId}) {
-    console.log("bookingiddddddddd",bookingId)
-    const handleCalcel = async()=>{
-        const res = await fetch(`http://localhost:5000/booking/${bookingId}`,{
-            method:"DELETE",
-            headers: {
-                'content-type':'application/json'
-            }
-        })
-        const data = await res.json()
-        window.location.reload()
+export function DeleteBooking({ bookingId }) {
+
+    // In your component
+
+const handleCancel = async () => {
+    try {
+        const res = await fetch(`http://localhost:5000/booking/${bookingId}`, {
+            method: "DELETE",
+            headers: { 'Content-Type': 'application/json' }
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+            toast.success("Booking cancelled successfully!");
+            setTimeout(() => window.location.reload(), 1200);
+        } else {
+            toast.error(data.message || "Failed to cancel booking");
+        }
+    } catch (err) {
+        toast.error("Something went wrong!");
     }
+};
     return (
         <AlertDialog>
             <Button
@@ -35,11 +47,11 @@ export function DeleteBooking({bookingId}) {
                             <AlertDialog.Heading>Cancel Booking permanently?</AlertDialog.Heading>
                         </AlertDialog.Header>
                         <AlertDialog.Body>
-                          
+
                         </AlertDialog.Body>
                         <AlertDialog.Footer>
-                            
-                            <Button onClick={handleCalcel} slot="close" variant="danger">
+
+                            <Button onClick={handleCancel} slot="close" variant="danger">
                                 Cancel Booking
                             </Button>
                         </AlertDialog.Footer>
