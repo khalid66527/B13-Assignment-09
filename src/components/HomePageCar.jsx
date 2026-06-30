@@ -2,12 +2,19 @@ import ExploreCars from "@/components/ExploreCars";
 import Link from "next/link";
 
 const HomePageCars = async () => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/addCar`, {
-        cache: "no-store"   
-    });
-    const allCars = await res.json();
+    let allCars = [];
+    try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/addCar`, {
+            cache: "no-store"   
+        });
+        if (res.ok) {
+            allCars = await res.json();
+        }
+    } catch (error) {
+        console.error("Failed to fetch cars from backend:", error);
+    }
 
-    const limitedCars = allCars.slice(0, 8);
+    const limitedCars = Array.isArray(allCars) ? allCars.slice(0, 8) : [];
 
     return (
         <div className=" bg-gray-50 py-10 px-4 sm:px-6 lg:px-8">

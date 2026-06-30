@@ -1,8 +1,5 @@
 
-import AddedCar from "@/components/AddedCar";
 import BookingCar from "@/components/BookingCar";
-import { DeleteAdded } from "@/components/DeleteAdded";
-import { EditCarModal } from "@/components/EditModal";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { FaLocationDot } from "react-icons/fa6";
@@ -17,16 +14,29 @@ const CarDetailsPage = async ({ params }) => {
     })
     console.log(token)
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/addCar/${id}`, {
-        headers: {
-            authorization: `Bearer ${token}`
+    let carDetails = null;
+    try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/addCar/${id}`, {
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        });
+        if (res.ok) {
+            carDetails = await res.json();
         }
-    })
-    const carDetails = await res.json()
+    } catch (error) {
+        console.error("Failed to fetch car details:", error);
+    }
 
+    if (!carDetails) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-gray-50">
+                <p className="text-gray-500 text-lg">Failed to load car details. Please check if the backend server is running.</p>
+            </div>
+        );
+    }
 
-
-    const { imageUrl, carName, availability, carType, location, seatCapacity, price, _id, description, booking_count } = carDetails
+    const { imageUrl, carName, availability, carType, location, seatCapacity, price, _id, description, booking_count } = carDetails;
 
     const handleAddedCar = async () => {
         const data = {
@@ -43,11 +53,7 @@ const CarDetailsPage = async ({ params }) => {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-50  via-gray-100 to-zinc-200 py-16 px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-end gap-2 my-3 w-11/12">
-                <EditCarModal carDetails={carDetails}></EditCarModal>
-                <DeleteAdded carDetails={carDetails}></DeleteAdded>
-            </div>
-            <div className="max-w-7xl mx-auto">
+            <div className="max-w-7xl mx-auto pt-6">
 
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 bg-white/70 backdrop-blur-md rounded-[32px] shadow-2xl overflow-hidden border border-white/50 p-6 sm:p-10 lg:p-12">
 
@@ -161,9 +167,7 @@ const CarDetailsPage = async ({ params }) => {
                             </div>
 
                             {/* Buttons */}
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-
-                                <AddedCar carDetails={carDetails}></AddedCar>
+                            <div className="flex flex-col gap-4">
 
                                 <BookingCar carDetails={carDetails}></BookingCar>
 

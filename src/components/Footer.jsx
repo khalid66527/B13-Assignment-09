@@ -40,7 +40,7 @@ const Footer = () => {
                     <h3 className="text-lg font-semibold text-white mb-3">Contact</h3>
                     <p className="text-sm text-gray-400 flex gap-2 items-center"><FaLocationDot /> Dhaka, Bangladesh</p>
                     <p className="text-sm text-gray-400 mt-2 flex gap-2 items-center"><MdOutlineMail /> support@drivefleet.com</p>
-                    <p className="text-sm text-gray-400 mt-2 flex gap-2 items-center"> <IoCall />+880 1568666527</p>
+                    <p className="text-sm text-gray-400 mt-2 flex gap-2 items-center"> <IoCall />+880 123456789</p>
                 </div>
 
             </div>

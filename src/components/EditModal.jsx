@@ -28,6 +28,9 @@ export function EditCarModal({ carDetails }) {
       console.log("Update Success:", data);
 
       toast.success("Car Updated Successfully!");
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
     } catch (error) {
       console.error("Update Failed:", error);
     }

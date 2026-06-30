@@ -1,6 +1,5 @@
 import { DeleteBooking } from "@/components/DeleteBooking"
 import { auth } from "@/lib/auth"
-import { Button } from "@heroui/react"
 import { headers } from "next/headers"
 import Image from "next/image"
 import Link from "next/link"
@@ -17,12 +16,20 @@ const MyBooking = async () => {
         headers: await headers()
     })
     const user = session?.user
-    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/booking/${user?.id}`,{
-        headers: {
-                    authorization: `Bearer ${token}`
-                }
-    })
-    const bookings = await res.json()
+
+    let bookings = [];
+    try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/booking/${user?.id}`,{
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        });
+        if (res.ok) {
+            bookings = await res.json();
+        }
+    } catch (error) {
+        console.error("Failed to fetch bookings from backend:", error);
+    }
     console.log("data", bookings)
     return (
         <div className="w-11/12 mx-auto">

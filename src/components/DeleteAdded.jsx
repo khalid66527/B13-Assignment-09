@@ -24,8 +24,12 @@ export function DeleteAdded({ carDetails }) {
 
             if (res.ok) {
                 toast.success("Car deleted successfully!");
-                router.push('/explore-cars'); 
-                router.refresh();            
+                if (window.location.pathname.includes('/my-added-cars')) {
+                    window.location.reload();
+                } else {
+                    router.push('/explore-cars'); 
+                    router.refresh();            
+                }
             } else {
                 toast.error(data.message || "Failed to delete car");
             }

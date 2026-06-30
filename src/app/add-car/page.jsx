@@ -4,19 +4,31 @@ import { authClient } from "@/lib/auth-client";
 import { toast } from "react-toastify";
 
 const AddCarFormPage = () => {
+    const { data: session } = authClient.useSession();
+    const user = session?.user;
+
     const handleSubmitform = async (e) => {
         e.preventDefault()
         const formData = new FormData(e.currentTarget)
-        const newCarObject = Object.fromEntries(formData.entries())
-        console.log(newCarObject)
-        for (const key in newCarObject) {
-            if (!newCarObject[key]) {
+        const formFields = Object.fromEntries(formData.entries())
+        console.log(formFields)
+        for (const key in formFields) {
+            if (!formFields[key]) {
                 toast.error(`${key} is required ❗`);
                 return;
             }
         }
         const { data: tokenData } = await authClient.token()
         console.log(tokenData)
+
+        const newCarObject = {
+            ...formFields,
+            userId: user?.id,
+            userName: user?.name,
+            userEmail: user?.email,
+            addedDate: new Date().toISOString(),
+            booking_count: 0
+        };
 
         const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/addCar`, {
             method: "POST",
